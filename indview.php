@@ -26,11 +26,10 @@ include('header.php');
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <center><h2>Cycle History</h2></center>
-    <div class="container" id="x" style="margin-top:10px; margin-right: 5px; margin-left: 5px; padding-right: 0px; padding-left: 0px; min-width:100%;">
+    <div class="container" id="x" style="border:0.25px solid #caced0;margin-top:10px;min-width:1350px; ">
     
-    <form class="form-inline" name='myform' method="post" action='indview.php'>
-    <div class="form-group">
-    <label style="display: inline-block; min-width:150px; text-align: right;" for='name'>Machine Name:&nbsp;</label><select required onchange="selectsensor(this.value)" name='machine' style="min-width:150px;" id='machine'>
+    <form name='myform' method="post" action='indview.php'>
+    <b>Machine Name: </b><select required onchange="selectsensor(this.value)" name='machine' id='machine'>
         <?php 
         if(!empty($_POST['machine'])){ 
         $msql='select DISTINCT MACHINE_NAME from sensor s, machine m where m.MACHINE_TABLE_ID=s.MACHINE_TABLE_ID and s.MACHINE_TABLE_ID= '.$_POST['machine'];
@@ -43,7 +42,7 @@ include('header.php');
         <option selected value=''>Machine Name</option>
         <?php
         }
-        $msql='select DISTINCT  m.MACHINE_TABLE_ID,m.MACHINE_NAME,s.SENSOR_TYPE_TABLE_ID from sensor s, machine m where m.MACHINE_TABLE_ID=s.MACHINE_TABLE_ID and s.FIRM_TABLE_ID= '.$_SESSION["firm_table_id"];
+        $msql='select m.MACHINE_TABLE_ID,m.MACHINE_NAME,s.SENSOR_TYPE_TABLE_ID from sensor s, machine m where m.MACHINE_TABLE_ID=s.MACHINE_TABLE_ID and s.FIRM_TABLE_ID= '.$_SESSION["firm_table_id"];
         
         
         $mnames=mysql_query($msql) or die($msql);
@@ -54,17 +53,17 @@ include('header.php');
         $mstr.='<option value='.$row["MACHINE_TABLE_ID"].'>'.$row["MACHINE_NAME"].'</option>';
         }
         }
-        echo $mstr.'</select></div>';
+        echo $mstr.'</select>';
         if(!empty($_POST['date1'])){
-        echo "<div class='form-group'><label style='display: inline-block; min-width:150px; text-align: right;' for='from'>Select Date From:&nbsp;</label><input name='date1' id='date1' class='js-example-basic-multiple' type='date' data-date-inline-picker='true' style='margin-top:1px;' value='".$_POST['date1']."' /></input></div><div class='form-group'><label style='display: inline-block; text-align: right; min-width:150px;'for='to'>Selec Date to:&nbsp;</label><input name='date2' class='js-example-basic-multiple' id='date2' type='date' value='".$_POST['date2']."' data-date-inline-picker='true' style='margin-top:1px;'  /></input></div>";
+        echo "&nbsp;&nbsp;&nbsp;&nbsp;<b>Select Date From: </b><input name='date1' id='date1' class='js-example-basic-multiple' type='date' data-date-inline-picker='true' style='margin-top:1px;' value='".$_POST['date1']."' /></input>&nbsp;&nbsp;&nbsp;&nbsp;<b>To: </b><input name='date2' class='js-example-basic-multiple' id='date2' type='date' value='".$_POST['date2']."' data-date-inline-picker='true' style='margin-top:1px;'  /></input>";
         } else {
-        echo "<div class='form-group'><label style='display: inline-block; text-align: right; min-width:150px;' for='from'>Select Date From:&nbsp;</label><input name='date1' id='date1' type='date' data-date-inline-picker='true' class='js-example-basic-multiple' style='margin-top:1px;' /></input></div><div class='form-group'><label style='text-align: right; display: inline-block;min-width:150px;' for='to'>Selec Date to:&nbsp;</label><input name='date2' class='js-example-basic-multiple' id='date2' type='date' data-date-inline-picker='true' style='margin-top:1px;'  /></input></div>";
+        echo "&nbsp;&nbsp;&nbsp;&nbsp;<b>Select Date From: </b><input name='date1' id='date1' type='date' data-date-inline-picker='true' class='js-example-basic-multiple' style='margin-top:1px;' /></input>&nbsp;&nbsp;&nbsp;&nbsp;<b>To: </b><input name='date2' class='js-example-basic-multiple' id='date2' type='date' data-date-inline-picker='true' style='margin-top:1px;'  /></input>";
         }
         if(($_POST['sensor']!="")){
         $query='select distinct DISPLAY_NAME,SENSOR_TABLE_ID from sensor where MACHINE_TABLE_ID='.$_POST['machine'].' and SENSOR_STATUS=1';
         $result=mysql_query($query) or die($query);
-    	$select.='<span id="txtHint" style="min-width:150px;"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select Sensor10:&nbsp;</b>
-    	<select name="sensor[]" style="width: 150px;" id="sensor" class="js-example-basic-multiple" multiple="multiple">';
+    	$select.='<span id="txtHint">&nbsp;&nbsp;&nbsp;&nbsp;<b>Select Sensor10: </b>
+    	<select name="sensor[]" style="width: 15%" id="sensor" class="js-example-basic-multiple" multiple="multiple">';
     
 	while($row=mysql_fetch_array($result)){
 	   if(in_array($row['SENSOR_TABLE_ID'], $_POST['sensor'])){
@@ -81,7 +80,7 @@ include('header.php');
           $query='select distinct DISPLAY_NAME,SENSOR_TABLE_ID from sensor where MACHINE_TABLE_ID='.$_POST['machine'].' and SENSOR_STATUS=1';
         $result=mysql_query($query) or die($query);
         
-         $select.='<span id="txtHint" style="min-width:150px;"><b > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select Sensor1:&nbsp;</b><select name="sensor[]" style="width:150px;" id="sensor" class="js-example-basic-multiple" multiple="multiple">';
+         $select.='<span id="txtHint">&nbsp;&nbsp;&nbsp;&nbsp;<b>Select Sensor1: </b><select name="sensor[]" style="width: 15%" id="sensor" class="js-example-basic-multiple" multiple="multiple">';
     
 	while($row=mysql_fetch_array($result)){
 	    
@@ -92,7 +91,7 @@ include('header.php');
 	echo $select;
 	echo '</span></span></span>';
          } else {
-         echo '<span id="txtHint" style="min-width:150px;"><b > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select Sensor3:&nbsp;</b><select name="sensor[]" id="sensor" style="width: 150px;" class="js-example-basic-multiple" multiple="multiple"></select></span>';
+         echo '<span id="txtHint">&nbsp;&nbsp;&nbsp;&nbsp;<b>Select Sensor3: </b><select name="sensor[]" id="sensor" style="width: 15%" class="js-example-basic-multiple" multiple="multiple"></select></span>';
          }
         ?>
     
@@ -100,16 +99,12 @@ include('header.php');
         
         </select>
         </span>
-        &nbsp;
-        </span>
-        <div class="form-group">
-        	<input type = 'submit' name='submit' value = 'Search' style="padding: 8px 16px;font-size: 10px;">
-        </div>
+        &nbsp;&nbsp;
+        </span><input type = 'submit' name='submit' value = 'Search' style="padding: 8px 16px;font-size: 10px;">
         </form>
-        
+        <br>
        
     </div><br>
-    <hr>
     
 <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>-->
@@ -212,8 +207,8 @@ function selectsensor(str) {
         if(mysql_num_rows($sensorid)==0){
             echo '<center><h1>No data  to display </h1></center>';
         } else {
-        echo "<div class='container' style='border:0.25px solid #caced0;  hight:1000px;'>
-            <h4 style='margin-left:0%;'> &nbsp;<span  ><button  id='export' class='button button2 '>
+        echo "<div class='container' style='border:0.25px solid #caced0; min-width:1350px; hight:1000px;'>
+            <h4 style='margin-left:0%;'> &nbsp;<span  ><button  id='export' class='button button2 pull-right ' style='margin-right:    10px;'>
   Data Export
             </button></span>
             </h4>";
@@ -526,9 +521,9 @@ function selectsensor(str) {
 </style>-->
         <div class="row-fluid temp-reading-tbl" id="temp-reading-tbl">
 						
-						<div class="table-reading" id="tableWrapper" style="border:0px solid #caced0;padding-right:0px; hight: 10000px;" >
+						<div class="table-reading" style="border:0px solid #caced0;padding-right:0px; hight: 10000px;" >
 						<table cellpadding="1" cellspacing="1" id="users" class="display table  table-responsive table-striped scroll
-                                      table2excel " width="100%" style="min-width: 100%;    overflow-x: scroll;    table-layout: fixed;" >
+                                      table2excel " width="100%" >
       <thead class="dt-head-right">
     <tr >
     <th >CYCLE ID</th>
